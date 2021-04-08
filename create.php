@@ -4,31 +4,49 @@ $pdo = new PDO('mysql:host=db001229.mydbserver.com;port=3306;dbname=usr_p584568_
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 echo "<details style='background:cadetblue'>";
-echo "<summary>dump</summary>";
+echo "<summary>dump: POST</summary>";
 echo "<pre>";
 echo var_dump($_POST);
 echo "</pre>";
 echo "</details>";
+echo "<details style='background:cadetblue'>";
+echo "<summary>dump: FILES</summary>";
+echo "<pre>";
+echo var_dump($_FILES);
+echo "</pre>";
+echo "</details>";
+
+$error = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
-    $image = $_POST['image'];
+    $image = $_FILES['image'];
     $description = $_POST['description'];
     $price = $_POST['price'];
     $date = date('Y-m-d H:i:s');
 
     if (!$title || !$price) {
-        echo "<p style='color:red'>Title or Price not set!</p>";
+        $error = true;
     } else {
+        if ($image['tmp_name']) {
+            if (!is_dir('images')) {mkdir('images');}
+            $imagePath = 'images/'.uniqid('', true).'/'.$image['name'];
+
+            mkdir(dirname($imagePath));
+            move_uploaded_file($image['tmp_name'], $imagePath);
+        }
+
         $statement = $pdo->prepare("INSERT INTO products (title, image , description, price, create_date) VALUES (:title, :image, :description, :price, :date)");
 
         $statement->bindValue(':title', $title);
-        $statement->bindValue(':image', NULL);
+        $statement->bindValue(':image', $imagePath);
         $statement->bindValue(':description', $description);
         $statement->bindValue(':price', $price);
         $statement->bindValue(':date', $date);
 
         $statement->execute();
+
+        header('Location: index.php');
     }
 }
 
@@ -50,7 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Create Product</h1>
 
-    <form action="create.php" method="post">
+    <?php if ($error) {  echo "<p style='color:red'>Title or Price not set!</p>"; } ?>
+
+    <form action="create.php" method="post" enctype="multipart/form-data">
         <h2>Details</h2>
         <div>
             <label for="product-image">Image</label>

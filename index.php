@@ -8,7 +8,7 @@ $statement->execute();
 $products = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 echo "<details style='background:cadetblue'>";
-echo "<summary>dump</summary>";
+echo "<summary>dump: products</summary>";
 echo "<pre>";
 echo var_dump($products);
 echo "</pre>";
