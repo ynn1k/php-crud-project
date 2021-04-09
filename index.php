@@ -32,7 +32,7 @@ echo "</details>";
     <meta http-equiv="X-UA-Compatible"
           content="ie=edge">
 
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.min.css">
 
     <title>Products CRUD</title>
 </head>
