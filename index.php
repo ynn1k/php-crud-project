@@ -3,7 +3,14 @@
 $pdo = new PDO('mysql:host=db001229.mydbserver.com;port=3306;dbname=usr_p584568_1','p584568d1', '2of-o2ku_ykqtM');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$statement = $pdo->prepare('SELECT * FROM products ORDER BY create_date DESC');
+$search = $_GET['search'];
+if ($search) {
+    $statement = $pdo->prepare('SELECT * FROM products WHERE title LIKE :title ORDER BY create_date DESC');
+    $statement->bindValue(':title', "%$search%");
+} else {
+    $statement = $pdo->prepare('SELECT * FROM products ORDER BY create_date DESC');
+}
+
 $statement->execute();
 $products = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -36,6 +43,12 @@ echo "</details>";
         <a href="create.php">Create Product</a>
     </p>
 
+    <p>
+    <form>
+        <input type="text" name="search" placeholder="search for product title..." value="<?php echo $search ?>">
+    </form>
+    </p>
+
     <table>
         <tr>
             <th>#</th>
@@ -49,11 +62,23 @@ echo "</details>";
         <?php foreach ($products as $i => $product) { ?>
             <tr>
                 <td><?php echo $i + 1; ?></td>
-                <td><?php echo $product['image']; ?></td>
+                <td>
+                    <?php if ($product['image']): ?>
+                        <img src="<?php echo $product['image']; ?>" alt="product image" style="max-width: 50px;max-height: 50px"></td>
+                    <?php endif; ?>
                 <td><?php echo $product['title']; ?></td>
                 <td><?php echo $product['price']; ?></td>
                 <td><?php echo $product['create_date']; ?></td>
-                <td><button>Edit</button> <button>Delete</button></td>
+                <td>
+                    <form action="delete.php" method="post" style="display: inline">
+                        <input type="hidden"
+                               name="id"
+                               value="<?php echo $product['id'] ?>">
+                        <button>Delete</button>
+                    </form>
+
+                    <a href="update.php?id=<?php echo $product['id'] ?>">Edit</a>
+                </td>
             </tr>
         <?php } ?>
     </table>
