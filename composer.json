@@ -1,0 +1,15 @@
+{
+    "name": "yanni/php-crud-project",
+    "authors": [
+        {
+            "name": "Yannik Hewlik",
+            "email": "hi@yannik.dev"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    }
+}
