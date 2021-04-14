@@ -33,7 +33,7 @@ class ProductController
             $productData['title'] =         $_POST['title'];
             $productData['description'] =   $_POST['description'];
             $productData['price'] =         (float)$_POST['price'];
-            $productData['imageFile'] =     $_POST['image'] ?? null;
+            $productData['imageFile'] =     $_FILES['image'] ?? null;
 
             $product = new Product();
             $product->load($productData);
@@ -67,7 +67,7 @@ class ProductController
             $productData['title'] =         $_POST['title'];
             $productData['description'] =   $_POST['description'];
             $productData['price'] =         (float)$_POST['price'];
-            $productData['imageFile'] =     $_POST['image'] ?? null;
+            $productData['imageFile'] =     $_FILES['image'] ?? null;
 
             $product = new Product();
             $product->load($productData);
