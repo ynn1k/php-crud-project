@@ -13,7 +13,7 @@ class Databse
 
     public function __construct()
     {
-        $this->pdo = new PDO('mysql:host=db001229.mydbserver.com;port=3306;dbname=usr_p584568_1', 'p584568d1', '2of-o2ku_ykqtM');
+        $this->pdo = new PDO('mysql:host=db001229.mydbserver.com;port=3306;dbname=usr_p584568_1', 'p584568d1', '2of-o2ku_ykqtM'); //no this wont work any longer :)
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         self::$db = $this;
