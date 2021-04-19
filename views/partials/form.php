@@ -5,7 +5,7 @@
     <div>
         <label for="product-image">Image</label>
         <?php if ($product['image']): ?>
-            <img src="<?php echo $product['image'] ?>" alt="product image" style="max-width: 250px;max-height: 250px">
+            <img src="https://<?php echo $_SERVER['HTTP_HOST'].'/'.$product['image'] ?>" alt="product image" style="max-width: 250px;max-height: 250px">
         <?php endif; ?>
         <input type="file" id="product-image" name="image">
     </div>

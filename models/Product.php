@@ -31,13 +31,14 @@ class Product
         if(!$this->title || !$this->price) {$error = true;}
 
         if (!$error) {
+            if ($this->imagePath) {
+                unlink('../public/' . $this->imagePath);
+            }
+
             if ($this->imageFile && $this->imageFile['tmp_name']) {
-                if ($this->imagePath) {
-                    unlink(__DIR__ . '/../public/' . $this->imagePath);
-                }
                 $this->imagePath = 'images/'.uniqid('', true).'/'.$this->imageFile['name'];
-                mkdir(dirname(__DIR__ . '/../public/' . $this->imagePath));
-                move_uploaded_file($this->imageFile['tmp_name'], __DIR__ . '/../public/' . $this->imagePath);
+                mkdir(dirname('../public/' . $this->imagePath));
+                move_uploaded_file($this->imageFile['tmp_name'], '../public/' . $this->imagePath);
             }
 
             $db = Databse::$db;
